@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Mobile Video Test</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+  <style>
+    body {
+      text-align: center;
+      background: #000;
+    }
+    .frame {
+      height: 100vh;
+      position: absolute;
+      top: 0;
+      left: 0;
+    }
+  </style>
+</head>
+<body>
+  <div id="video"></div>
+
+  <script src="/jquery.js"></script>
+  <script>
+    var FRAME_COUNT = 42;
+    var FRAME_RATE = 13;
+    var MS_PER_FRAME = 1000 / FRAME_RATE;
+    var frames = [];
+
+    for (i = 0; i < FRAME_COUNT; i++) { 
+        var id = i + 1;
+        frames.push(id);
+        var paddedId;
+        if (id < 10) {
+          paddedId = '00' + id;
+        } else if (id < 100) {
+          paddedId = '0' + id;
+        } else if (id < 1000) {
+          paddedId = id;
+        }
+        $('#video').append('<img class="frame" data-id="'+id+'" src="/frames/output_' + paddedId + '.png">');
+    }
+
+    $("#video").on('click', function(){
+      var nextHiddenImgId = frames.pop();
+      var interval = window.setInterval(function(){
+        $('.frame[data-id="'+nextHiddenImgId+'"]').css({opacity: 0});
+        nextHiddenImgId = frames.pop();
+      }, MS_PER_FRAME);
+    });
+
+    
+  </script>
+</body>
+</html>
